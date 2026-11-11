@@ -127,13 +127,49 @@ function log(who,msg){
 }
 
 function say(t){
-  if(!('speechSynthesis' in window))return;
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(t);
-  u.lang='es-ES';
-  speechSynthesis.speak(u);
-}
+  if(!('speechSynthesis' in window)){
+    log('SISTEMA','Este dispositivo no admite voz.');
+    return;
+  }
 
+  speechSynthesis.cancel();
+
+  const speak = () => {
+    const u = new SpeechSynthesisUtterance(t);
+    u.lang = 'es-ES';
+    u.rate = 0.95;
+    u.pitch = 1;
+    u.volume = 1;
+
+    const voices = speechSynthesis.getVoices();
+    const spanishVoice = voices.find(v =>
+      v.lang.toLowerCase().startsWith('es')
+    );
+
+    if(spanishVoice) u.voice = spanishVoice;
+
+    u.onerror = e => {
+      log('SISTEMA','Error al reproducir voz: ' + e.error);
+    };
+
+    speechSynthesis.speak(u);
+  };
+
+  if(speechSynthesis.getVoices().length){
+    setTimeout(speak, 250);
+  }else{
+    speechSynthesis.onvoiceschanged = () => {
+      speechSynthesis.onvoiceschanged = null;
+      setTimeout(speak, 250);
+    };
+
+    setTimeout(() => {
+      if(speechSynthesis.speaking || speechSynthesis.pending) return;
+      speechSynthesis.onvoiceschanged = null;
+      speak();
+    }, 1000);
+  }
+}
 function notes(){
   try{return JSON.parse(localStorage.getItem(key)||'[]')}
   catch{return []}

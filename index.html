@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050b16">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JARVIS">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/jarvis-192.png">
+<title>J.A.R.V.I.S. — Mobile</title>
+<style>
+:root{--cyan:#68eaff;--blue:#168cff;--muted:#7195b3;--line:rgba(104,234,255,.2)}
+*{box-sizing:border-box}body{margin:0;min-height:100svh;color:#e2faff;background:radial-gradient(ellipse at 50% 34%,#12375a 0,#071629 44%,#020711 100%);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.2;background-image:linear-gradient(rgba(80,190,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(80,190,255,.08) 1px,transparent 1px);background-size:34px 34px}
+header{height:62px;padding:0 19px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#030b17a8;position:relative;z-index:2}
+.brand{font-size:13px;letter-spacing:.22em;font-weight:750;color:var(--cyan)}.brand small{display:block;font-size:8px;letter-spacing:.27em;color:#7a9db9;margin-top:4px}
+.live{font-size:9px;letter-spacing:.12em;color:#a1c6db;display:flex;gap:7px;align-items:center}.dot{width:6px;height:6px;border-radius:50%;background:#5ff2c1;box-shadow:0 0 10px #5ff2c1}
+main{width:min(100%,560px);margin:auto;padding:18px 15px 24px;position:relative}
+.time{text-align:center;color:#9bc9df;font-size:12px;letter-spacing:.16em;font-variant-numeric:tabular-nums;margin:8px 0 3px}
+.orb-area{height:min(76vw,340px);min-height:260px;display:grid;place-items:center;position:relative}
+.orb{width:min(70vw,300px);aspect-ratio:1;position:relative;display:grid;place-items:center}
+.orb:before,.orb:after{content:"";position:absolute;inset:1%;border:1px solid rgba(92,218,255,.42);border-radius:50%;box-shadow:0 0 28px #168cff26,inset 0 0 28px #168cff16}
+.orb:after{inset:9%;border-style:dashed;animation:spin 38s linear infinite}
+.ring{position:absolute;border:1px solid rgba(92,218,255,.3);border-radius:50%}.r1{inset:16%;border-left-color:transparent;border-right-color:transparent;animation:spin 16s linear infinite}.r2{inset:24%;border-top:2px solid var(--cyan);border-bottom:2px solid transparent;animation:spin 9s linear infinite reverse}.r3{inset:32%;border-style:dashed;animation:spin 24s linear infinite}
+.core{width:43%;height:43%;border-radius:50%;background:radial-gradient(circle at 50% 42%,#c6fbff 0%,#4ccfff 9%,#147de2 32%,#092d68 62%,#03142c 78%);box-shadow:0 0 25px #38caff,0 0 70px #0099ff99,inset 0 0 22px #b8faff;animation:pulse 3.4s ease-in-out infinite}
+.orb.listening .core{box-shadow:0 0 35px #a9ffff,0 0 100px #16aaff;animation:pulse .75s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{50%{transform:scale(1.06);filter:brightness(1.3)}}
+.name{text-align:center;font-size:11px;letter-spacing:.32em;color:#d5faff;text-shadow:0 0 12px #32bfff}.state{text-align:center;font-size:9px;letter-spacing:.16em;color:#79a9c7;margin-top:9px;min-height:14px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:18px 0 15px}
+button{border:1px solid #53d7ff66;background:#135e972b;color:#d3f8ff;border-radius:10px;padding:13px 10px;font-size:10px;font-weight:650;letter-spacing:.08em;min-height:45px}
+button.primary{background:linear-gradient(100deg,#0875c9,#13a7c5);border-color:#5ceaff;color:#fff}
+button:active{transform:scale(.985)}
+.command{display:flex;gap:8px;padding:10px;border:1px solid var(--line);border-radius:12px;background:#04101fe0;align-items:center}
+.command input{min-width:0;flex:1;background:none;border:0;outline:0;color:#e4fbff;font-size:14px;padding:7px 2px}.command input::placeholder{color:#63839e}
+.panel{margin-top:13px;padding:15px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(145deg,#0a1e35cc,#040d1bcc);box-shadow:inset 0 0 25px #2497ff09}
+.panel h2{font-size:9px;letter-spacing:.2em;color:#84abc7;font-weight:650;margin:0 0 12px}
+.log{max-height:175px;overflow:auto;font-size:12px;line-height:1.5;color:#b4d0e2}
+.entry{padding:8px 0;border-bottom:1px solid #63eaff12}.entry b{display:block;color:var(--cyan);font-size:8px;letter-spacing:.12em;margin-bottom:3px}
+.foot{text-align:center;font-size:8px;letter-spacing:.14em;color:#527895;margin:17px 0 6px}
+#installHint{display:none;margin-top:12px;text-align:center;font-size:11px;line-height:1.5;color:#9bc8df}
+@media(min-width:700px){main{padding-top:30px}.orb-area{height:350px}}
+</style>
+</head>
+<body>
+<header><div class="brand">J.A.R.V.I.S.<small>MOBILE INTERFACE · BUILD 0.2</small></div><div class="live"><i class="dot"></i> INTERFAZ ACTIVA</div></header>
+<main>
+<div class="time" id="clock">00:00:00</div>
+<div class="orb-area"><div class="orb" id="orb"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="core"></div></div></div>
+<div class="name">J.A.R.V.I.S.</div><div class="state" id="state">A LA ESPERA DE INSTRUCCIONES</div>
+<div class="actions"><button class="primary" id="listen">◎ HABLAR CON JARVIS</button><button id="stop">DETENER VOZ</button></div>
+<div class="command"><input id="input" placeholder="Escribe una instrucción..." autocomplete="off"><button class="primary" id="send">ENVIAR</button></div>
+<section class="panel"><h2>REGISTRO DE ACTIVIDAD</h2><div class="log" id="log" aria-live="polite"><div class="entry"><b>JARVIS · INICIO</b>Interfaz móvil inicializada. Esperando instrucciones.</div><div class="entry"><b>JARVIS · SISTEMA</b>La sincronización entre dispositivos se activará al conectar el servicio central.</div></div></section>
+<section class="panel"><h2>ESTADO DE CONEXIÓN</h2><div style="display:flex;justify-content:space-between;font-size:11px;color:#91b4cb;padding:4px 0"><span>Interfaz móvil</span><strong style="color:#7fffd4">ACTIVA</strong></div><div style="display:flex;justify-content:space-between;font-size:11px;color:#91b4cb;padding:4px 0"><span>IA central</span><strong style="color:#ffd58b">PENDIENTE</strong></div><div style="display:flex;justify-content:space-between;font-size:11px;color:#91b4cb;padding:4px 0"><span>Mac sincronizado</span><strong style="color:#ffd58b">PENDIENTE</strong></div></section>
+<div id="installHint">Para instalar: Safari → botón Compartir → Añadir a pantalla de inicio.</div>
+<div class="foot">PERSONAL AI SYSTEM · MOBILE PROTOTYPE · 0.2</div>
+</main>
+<script>
+const $=id=>document.getElementById(id), key='jarvis-mobile-notes-v1';let rec=null;
+function log(who,msg){const d=document.createElement('div');d.className='entry';const b=document.createElement('b');b.textContent=who+' · '+new Date().toLocaleTimeString('es-ES');d.append(b,document.createTextNode(msg));$('log').prepend(d)}
+function say(t){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='es-ES';speechSynthesis.speak(u)}
+function notes(){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return []}}
+function command(raw){let t=raw.trim();if(!t)return;log('TÚ',t);$('input').value='';let q=t.toLowerCase(),a;
+if(q.includes('hora'))a='Son las '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})+'.';
+else if(q.includes('fecha')||q.includes('día'))a='Hoy es '+new Date().toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'.';
+else if(q.includes('qué puedes hacer')||q==='ayuda')a='En esta versión puedo consultar la hora y fecha, guardar notas en este dispositivo y responder comandos básicos. La IA completa y la sincronización llegarán al conectar el servidor central.';
+else if(q.includes('lee mis notas')||q.includes('mis notas')){let n=notes();a=n.length?'Tus notas son: '+n.join('. '):'No hay notas guardadas en este dispositivo.'}
+else if(q.startsWith('recuérdame ')||q.startsWith('recuerdame ')||q.startsWith('nota ')){let n=t.replace(/^recuérdame\s+/i,'').replace(/^recuerdame\s+/i,'').replace(/^nota\s+/i,'');let all=notes();all.push(n);localStorage.setItem(key,JSON.stringify(all));a='He guardado esta nota en este iPhone: '+n}
+else if(q.includes('borra mis notas')){localStorage.removeItem(key);a='He borrado las notas de este dispositivo.'}
+else a='He recibido tu instrucción. Todavía no estoy conectado al cerebro de inteligencia artificial. Esa será la siguiente fase.';
+$('state').textContent='RESPUESTA GENERADA';setTimeout(()=>{log('JARVIS',a);say(a)},180)}
+$('send').onclick=()=>command($('input').value);$('input').addEventListener('keydown',e=>{if(e.key==='Enter')command($('input').value)});
+$('listen').onclick=()=>{let SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){log('SISTEMA','Este navegador no ofrece reconocimiento de voz aquí. Escribe tu orden o prueba un navegador compatible.');return}rec=new SR();rec.lang='es-ES';rec.onstart=()=>{$('orb').classList.add('listening');$('state').textContent='TE ESTOY ESCUCHANDO'};rec.onresult=e=>command(e.results[0][0].transcript);rec.onerror=e=>log('SISTEMA','Error de micrófono: '+e.error);rec.onend=()=>{$('orb').classList.remove('listening');$('state').textContent='A LA ESPERA DE INSTRUCCIONES'};rec.start()};
+$('stop').onclick=()=>{if(rec)rec.stop();if('speechSynthesis'in window)speechSynthesis.cancel();$('orb').classList.remove('listening');$('state').textContent='VOZ DETENIDA'};
+function tick(){$('clock').textContent=new Date().toLocaleTimeString('es-ES')}tick();setInterval(tick,1000);
+if('serviceWorker'in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').catch(()=>{});
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.navigator.standalone)$('installHint').style.display='block';
+</script>
+</body></html>
